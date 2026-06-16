@@ -2,9 +2,9 @@
 
 ## Información del Estudiante
 
-- **Nombre:** [Tu nombre completo aquí]
-- **Carrera:** [Tu carrera]
-- **Fecha de inicio:** [Fecha]
+- **Nombre:** Bryan Taco
+- **Carrera:** Desarrollo de Software
+- **Fecha de inicio:** 13 de junio 2026
 
 ---
 

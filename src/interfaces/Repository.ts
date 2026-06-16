@@ -1,0 +1,44 @@
+export interface Repository {
+    name: string;
+    description: string;
+    language: string;
+    avatarUrl: string;
+  }
+  
+  export const repositoryList: Repository[] = [
+    {
+      name: "react-dashboard",
+      avatarUrl: "https://avatars.githubusercontent.com/u/48026030?v=4",
+      description:
+        "Un panel de control de administración moderno construido con React y Tailwind.",
+      language: "TypeScript",
+    },
+    {
+      name: "fastapi-backend",
+      avatarUrl: "https://avatars.githubusercontent.com/u/48026030?v=4",
+      description:
+        "API REST de alto rendimiento para el manejo de usuarios y autenticación.",
+      language: "Python",
+    },
+    {
+      name: "awesome-utils",
+      avatarUrl: "https://avatars.githubusercontent.com/u/48026030?v=4",
+      description:
+        "Colección de funciones utilitarias para el día a día en JavaScript.",
+      language: "JavaScript",
+    },
+    {
+      name: "flutter-ecommerce",
+      avatarUrl: "https://avatars.githubusercontent.com/u/48026030?v=4",
+      description:
+        "Aplicación móvil de comercio electrónico con soporte para iOS y Android.",
+      language: "Dart",
+    },
+    {
+      name: "rust-game-engine",
+      avatarUrl: "https://avatars.githubusercontent.com/u/16384?v=4",
+      description:
+        "Motor de videojuegos 2D enfocado en rendimiento y seguridad.",
+      language: "Rust",
+    },
+  ];
