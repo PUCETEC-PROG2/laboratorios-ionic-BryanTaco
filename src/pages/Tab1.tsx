@@ -12,43 +12,27 @@ import {
   IonThumbnail,
   IonTitle,
   IonToolbar,
+  useIonViewWillEnter,
 } from "@ionic/react";
 
 import "./Tab1.css";
 import { pencil, trash } from "ionicons/icons";
 
-const repositorios = [
-  {
-    nombre: "React Dashboard",
-    descripcion: "Panel administrativo moderno construido con React.",
-    lenguaje: "TypeScript",
-    avatar: "https://randomuser.me/api/portraits/men/1.jpg",
-  },
-  {
-    nombre: "FastAPI Backend",
-    descripcion: "API REST para autenticación y gestión de usuarios.",
-    lenguaje: "Python",
-    avatar: "https://randomuser.me/api/portraits/women/2.jpg",
-  },
-  {
-    nombre: "Awesome Utils",
-    descripcion: "Colección de utilidades para JavaScript.",
-    lenguaje: "JavaScript",
-    avatar: "https://randomuser.me/api/portraits/men/3.jpg",
-  },
-  {
-    nombre: "Flutter Ecommerce",
-    descripcion: "Aplicación móvil para comercio electrónico.",
-    lenguaje: "Dart",
-    avatar: "https://randomuser.me/api/portraits/women/4.jpg",
-  },
-  {
-    nombre: "Rust Game Engine",
-    descripcion: "Motor de videojuegos 2D enfocado en rendimiento.",
-    lenguaje: "Rust",
-    avatar: "https://randomuser.me/api/portraits/men/5.jpg",
-  },
-];
+const Tab1: React.FC = () => {
+  const [repositorylist, setRepositoryList] = React.useState<Repository[]>([]);
+
+  const fetchRepos = async () => {
+    try {
+      const repos = await fetchRepositories();
+       setRepositoryList(repos);
+    } catch (error) {
+      console.error("Error obteniendo repositorios", error);
+    }
+  };
+
+  useIonViewWillEnter (() => {
+    fetchRepos();
+  });
 
 const Tab1: React.FC = () => {
   return (
@@ -93,5 +77,30 @@ const Tab1: React.FC = () => {
     </IonPage>
   );
 };
+
+type Repository = {
+  nombre: string;
+  descripcion: string;
+  lenguaje: string;
+  avatar: string;
+};
+
+async function fetchRepositories(): Promise<Repository[]> {
+  const apiUrl = "https://api.example.com/repositories";
+
+  const response = await fetch(apiUrl);
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
+
+  const data = await response.json();
+
+  return data.map((repo: any) => ({
+    nombre: repo.name,
+    descripcion: repo.description,
+    lenguaje: repo.language,
+    avatar: repo.owner.avatar_url,
+  }));
+}
 
 export default Tab1;
