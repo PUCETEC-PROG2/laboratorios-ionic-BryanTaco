@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import {
   IonContent,
   IonHeader,
@@ -17,24 +18,25 @@ import {
 
 import "./Tab1.css";
 import { pencil, trash } from "ionicons/icons";
+import { fetchRepositories } from "../../services/GithubService";
+import type { Repository } from "../interfaces/Repository";
 
 const Tab1: React.FC = () => {
-  const [repositorylist, setRepositoryList] = React.useState<Repository[]>([]);
+  const [repositoryList, setRepositoryList] = useState<Repository[]>([]);
 
-  const fetchRepos = async () => {
+  const loadRepos = async () => {
     try {
       const repos = await fetchRepositories();
-       setRepositoryList(repos);
+      setRepositoryList(repos);
     } catch (error) {
       console.error("Error obteniendo repositorios", error);
     }
   };
 
-  useIonViewWillEnter (() => {
-    fetchRepos();
+  useIonViewWillEnter(() => {
+    loadRepos();
   });
 
-const Tab1: React.FC = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -45,18 +47,18 @@ const Tab1: React.FC = () => {
 
       <IonContent fullscreen>
         <IonList>
-          {repositorios.map((repo, index) => (
-            <IonItemSliding key={index}>
+          {repositoryList.map((repo) => (
+            <IonItemSliding key={repo.id}>
               <IonItem>
                 <IonThumbnail slot="start">
-                  <img src={repo.avatar} alt="Avatar" />
+                  <img src={repo.owner.avatar_url} alt="Avatar" />
                 </IonThumbnail>
 
                 <IonLabel>
-                  <h2>{repo.nombre}</h2>
-                  <p>{repo.descripcion}</p>
+                  <h2>{repo.name}</h2>
+                  <p>{repo.description}</p>
                   <p>
-                    <strong>Lenguaje:</strong> {repo.lenguaje}
+                    <strong>Lenguaje:</strong> {repo.language}
                   </p>
                 </IonLabel>
               </IonItem>
@@ -77,30 +79,5 @@ const Tab1: React.FC = () => {
     </IonPage>
   );
 };
-
-type Repository = {
-  nombre: string;
-  descripcion: string;
-  lenguaje: string;
-  avatar: string;
-};
-
-async function fetchRepositories(): Promise<Repository[]> {
-  const apiUrl = "https://api.example.com/repositories";
-
-  const response = await fetch(apiUrl);
-  if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`);
-  }
-
-  const data = await response.json();
-
-  return data.map((repo: any) => ({
-    nombre: repo.name,
-    descripcion: repo.description,
-    lenguaje: repo.language,
-    avatar: repo.owner.avatar_url,
-  }));
-}
 
 export default Tab1;
